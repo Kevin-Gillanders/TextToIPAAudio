@@ -19,3 +19,5 @@
 	- [ ] Ulster english
 	- [ ] Scottish english
 - [ ] Look into using ML to create a translation to IPA instead of using hard coded datasets
+	- Decision trees seem to me used, along with neural networks
+	- English doesn't lend itself well to automatic translation due to the messy nature of the language
