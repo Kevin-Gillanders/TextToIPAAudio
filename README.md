@@ -3,6 +3,8 @@
 - Alternate IPA collection : https://github.com/open-dict-data/ipa-dict
 - Audio not stored here was obtained from :https://jbdowse.com/ipa/
 - https://en.wikipedia.org/wiki/Help:IPA/English#Dialect_variation
+- https://en.wikipedia.org/wiki/Ulster_English
+- https://www.uni-due.de/VCDE/VCDE_Themes.htm (Raymond Hickey)
 
 ## TODO
 - Allow a string to be provided to the program and using the lookup table create the audio playback
@@ -13,6 +15,7 @@
 
 ## Ideas
 - [ ] Create a translation between Recieved Pronounciation and :
+	- [ ] Hiberno english
 	- [ ] Ulster english
 	- [ ] Scottish english
 - [ ] Look into using ML to create a translation to IPA instead of using hard coded datasets
