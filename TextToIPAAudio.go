@@ -29,7 +29,6 @@ func init(){
     defer file.Close()
 
     scanner := bufio.NewScanner(file)
-    // optionally, resize scanner's capacity for lines over 64K, see next example
     for scanner.Scan() {
     	listing := strings.Split(scanner.Text(), "\t")
         engToIPA = append(engToIPA, listing)
@@ -46,34 +45,47 @@ func main() {
 	log.SetFlags(log.Lshortfile)
 	speaker.Init(sr, sr.N(time.Second/10))
 
-	// var queue Queue
+	var queue Queue
 	// var resampled *beep.Resampler
 
 	fmt.Println("Please input a line of text you wish to be transcribed...")
 
-	scanner := bufio.NewScanner(os.Stdin)
-    scanner.Scan()
+	// scanner := bufio.NewScanner(os.Stdin)
+ //    scanner.Scan()
 
-    line := scanner.Text()
+    line := "hello zoo bee"//scanner.Text()
 
     translatedText := CreateTranslatedText(line)
     fmt.Println(translatedText)
+    SayText(translatedText, &queue)
 	// SayHappyBirthDayZoe(&queue)
 
-	// done := make(chan bool)
+	done := make(chan bool)
 
-	// speaker.Play(beep.Seq(&queue, beep.Callback(func() {
-	// 	done <- true
-	// })))
-	// fmt.Println("Playing ...")
-	// for {
-	// 	select {
-	// 	case <-done:
-	// 		fmt.Println("Channel cleared")
-	// 		return
-	// 	}
-	// }
+	speaker.Play(beep.Seq(&queue, beep.Callback(func() {
+		done <- true
+	})))
+	fmt.Println("Playing ...")
+	for {
+		select {
+		case <-done:
+			fmt.Println("Channel cleared")
+			return
+		}
+	}
 
+}
+
+func SayText(translatedText TranslatedText, queue *Queue) {
+	
+	var resampled *beep.Resampler
+	
+	for _, wordFiles := range translatedText.AudioFile{
+		for _, wordFile  := range wordFiles{
+			resampled = ReadToMemory(wordFile, sr)
+			AddToQueue(resampled, queue)
+		}
+	}
 }
 
 func SayHappyBirthDayZoe(queue *Queue) {
