@@ -27,17 +27,16 @@ func (q *Queue) Stream(samples [][2]float64) (n int, ok bool) {
 	for filled < len(samples) {
 		// There are no streamers in the queue, so we stream silence.
 		if len(q.streamers) == 0 {
-			// if ! q.started {
-			for i := range samples[filled:] {
-				samples[i][0] = 0
-				samples[i][1] = 0
+			if ! q.started {
+				for i := range samples[filled:] {
+					samples[i][0] = 0
+					samples[i][1] = 0
+				}
+				break
+			} else {
+				return 0, false
 			}
-			break
-		} else {
-			// 	return 0, false
-			// }
 		}
-
 		// We stream from the first streamer in the queue.
 		n, ok := q.streamers[0].Stream(samples[filled:])
 		log.Println(len(q.streamers))
