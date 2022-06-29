@@ -6,8 +6,6 @@ import (
 	"path/filepath"
 	"strings"
 	"time"
-
-	"github.com/k0kubun/pp/v3"
 )
 
 
@@ -39,24 +37,34 @@ func GetAudioFiles(ipaText [] string) [][] string{
 			if string(ipaRune) == "/"{
 				continue
 			}
-			fmt.Println("Rune : ", string(ipaRune))
 
 			filePattern := fmt.Sprintf("./Audio/%v*_*.wav", string(ipaRune))
 
-			log.Println(filePattern)
+			// log.Println(filePattern)
 
 			fileResult, _ := filepath.Glob(filePattern)
+
 			// pp.Println(fileResult)
 			if(len(fileResult) == 0){
-				fmt.Println("======")
-				fmt.Println(string(ipaRune))
-				fmt.Println("======")
+				log.Println("===NOT FOUND===")
+				log.Println(ipaRune)
+				log.Println(string(ipaRune))
+				log.Println("======")
 				// Couldnt find a char
 				// Using the char window should hopefully help here
 				// As the Glob pattern only allows first letters
 				continue
 			}
-			pp.Println(fileResult[0])
+			// log.Println("====================")
+			// log.Println("Rune : ", ipaRune)
+			// log.Println("string(Rune) : ", string(ipaRune))
+			// strippedFileName := strings.Replace(fileResult[0], "Audio\\", "", -1)
+			// log.Println("String of first file : ", strippedFileName)
+			// log.Println("First string of first file : ", string(strippedFileName[0]))
+			// log.Println("First rune of first file : ", rune(strippedFileName[0]))
+			// log.Println("====================")
+			
+			// pp.Println(fileResult[0])
 			wordAudioFiles = append(wordAudioFiles, "./" + fileResult[0])
 		}
 		audioFiles = append(audioFiles, wordAudioFiles)

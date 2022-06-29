@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 
 	"github.com/faiface/beep"
 )
@@ -13,10 +12,10 @@ type Queue struct {
 
 func (q *Queue) Add(streamers ...beep.Streamer) {
 	q.started = true
-	log.Println("len q streamers : ", len(q.streamers))
-	log.Println("Streamer", streamers)
+	// log.Println("len q streamers : ", len(q.streamers))
+	// log.Println("Streamer", streamers)
 	q.streamers = append(q.streamers, streamers...)
-	log.Println("len q streamers after: ", len(q.streamers))
+	// log.Println("len q streamers after: ", len(q.streamers))
 
 }
 
@@ -39,14 +38,14 @@ func (q *Queue) Stream(samples [][2]float64) (n int, ok bool) {
 		}
 		// We stream from the first streamer in the queue.
 		n, ok := q.streamers[0].Stream(samples[filled:])
-		log.Println(len(q.streamers))
-		log.Println(n, ok)
+		// log.Println(len(q.streamers))
+		// log.Println(n, ok)
 		// If it's drained, we pop it from the queue, thus continuing with
 		// the next streamer.
 		if !ok {
-			log.Println("Popping drained stream : ", len(q.streamers))
+			// log.Println("Popping drained stream : ", len(q.streamers))
 			q.streamers = q.streamers[1:]
-			log.Println("Popped drained stream : ", len(q.streamers))
+			// log.Println("Popped drained stream : ", len(q.streamers))
 		}
 		// We update the number of filled samples.
 		filled += n
